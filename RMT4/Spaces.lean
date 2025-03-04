@@ -101,7 +101,7 @@ lemma 𝓘_nonempty [good_domain U] : (𝓘 U).Nonempty := by
     is_inj := λ z₁ hz₁ z₂ hz₂ hgz => f_inj (by simp [g_sqf _, hz₁, hz₂, hgz]),
     maps_to := λ z hz hgz => by {
       apply f_noz hz
-      rw [mem_closed_ball_neg_iff_mem_neg_closed_ball] at hgz
+      rw [← neg_closedBall, Set.mem_neg] at hgz
       obtain ⟨z', hz', hgz'⟩ := (closedBall_subset_ball (by linarith)).trans hr hgz
       have hzz' : z = z' := f_inj (by simp [g_sqf hz, g_sqf hz', hgz'])
       simpa [hzz', CharZero.neg_eq_self_iff, g_sqf hz'] using hgz'.symm } }

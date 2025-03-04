@@ -11,10 +11,6 @@ lemma isCompact_segment [OrderedRing 𝕜] [TopologicalSpace 𝕜] [IsTopologica
     IsCompact (segment 𝕜 x y) := by
   simpa only [segment_eq_image] using isCompact_Icc.image (by continuity)
 
-lemma mem_closed_ball_neg_iff_mem_neg_closed_ball [SeminormedAddCommGroup V] {u v : V} :
-    u ∈ closedBall (-v) r ↔ -u ∈ closedBall v r := by
-  rw [← neg_closedBall r v]; rfl
-
 lemma DifferentiableAt.deriv_eq_deriv_pow_div_pow {n : ℕ} (n_pos : 0 < n) {f g : ℂ → ℂ}
     (hg : ∀ᶠ z in 𝓝 z, f z = (g z) ^ n) (g_diff : DifferentiableAt ℂ g z) (fz_nonzero : f z ≠ 0) :
     deriv g z = deriv f z / (n * (g z) ^ (n - 1)) := by
@@ -22,10 +18,6 @@ lemma DifferentiableAt.deriv_eq_deriv_pow_div_pow {n : ℕ} (n_pos : 0 < n) {f g
   have h2 : n * (g z) ^ (n - 1) ≠ 0 := by simp [pow_ne_zero, h1, n_pos.ne.symm]
   rw [(EventuallyEq.deriv hg).self_of_nhds, deriv_pow'' _ g_diff, eq_div_iff h2]
   ring
-
-lemma Set.injOn_of_injOn_comp {α β γ : Type*} {f : β → γ} {g : α → β} {s : Set α}
-    (hfg : InjOn (f ∘ g) s) : InjOn g s :=
-  λ _ hx _ hy => hfg hx hy ∘ congr_arg f
 
 lemma has_deriv_at_integral_of_continuous_of_lip
     {φ : ℂ → ℝ → ℂ} {ψ : ℝ → ℂ} {z₀ : ℂ} {a b C δ : ℝ} (hab : a ≤ b) (δ_pos : 0 < δ)
@@ -73,11 +65,8 @@ lemma uIoo_eq_uIcc_sdiff_ends : uIoo a b = uIcc a b \ {a, b} := by
   · simp [uIoo, uIcc, *]
   · simp [uIoo, uIcc, *, pair_comm a b]
 
-lemma uIoo_subset_uIcc : uIoo a b ⊆ uIcc a b := by
-  cases le_total a b <;> simp [uIoo, uIcc, Ioo_subset_Icc_self, *]
-
 lemma uIcc_mem_nhds (h : t ∈ uIoo a b) : uIcc a b ∈ 𝓝 t :=
-  mem_of_superset (isOpen_Ioo.mem_nhds h) uIoo_subset_uIcc
+  mem_of_superset (isOpen_Ioo.mem_nhds h) (Set.uIoo_subset_uIcc _ _)
 
 lemma uIcc_mem_nhds_within (h : t ∈ uIoo a b) : uIcc a b ∈ 𝓝[Ioi t] t :=
   nhdsWithin_le_nhds (uIcc_mem_nhds h)
@@ -134,7 +123,7 @@ theorem integral_derivWithin_smul_comp
     (hg : ContDiffOn ℝ 1 g (uIcc a b)) (hf : ContinuousOn f (g '' uIcc a b)) :
     (∫ x in a..b, derivWithin g (uIcc a b) x • (f ∘ g) x) = (∫ x in g a..g b, f x) := by
   refine integral_comp_smul_deriv'' hg.continuousOn (λ t ht => ?_) (hg.continuousOn_derivWithin'' le_rfl) hf
-  apply (hg.differentiableOn le_rfl t (uIoo_subset_uIcc ht)).hasDerivWithinAt.mono_of_mem_nhdsWithin
+  apply (hg.differentiableOn le_rfl t (Set.uIoo_subset_uIcc _ _ ht)).hasDerivWithinAt.mono_of_mem_nhdsWithin
   exact uIcc_mem_nhds_within ht
 
 theorem integral_eq_sub''' (h : ContDiffOn ℝ 1 f (Icc a b)) (hab : a ≤ b) :

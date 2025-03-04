@@ -80,7 +80,7 @@ lemma non_injective_schwarz {f : ℂ → ℂ} (f_diff : DifferentiableOn ℂ f �
     have g_inj : InjOn g 𝔻 := λ x hx y hy => by
       rw [g_lin hx, g_lin hy]
       simp [g'0_ne_0]
-    cases f_noninj (injOn_of_injOn_comp g_inj)
+    cases f_noninj g_inj.of_comp
   case neg =>
     have g'0_le_1 := norm_deriv_le_one_of_mapsTo_ball g_diff g_maps g_0_eq_0 zero_lt_one
     have g'0_lt_1 : ‖deriv g 0‖ < 1 := Ne.lt_of_le h g'0_le_1

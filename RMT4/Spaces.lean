@@ -62,7 +62,7 @@ lemma IsClosed_𝓜 (hU : IsOpen U) : IsClosed (𝓜 U) := by
   suffices h : IsClosed {f : 𝓒 U | MapsTo f U (closedBall 0 1)} by
     exact (isClosed_𝓗 hU).inter h
   simp_rw [MapsTo, setOf_forall]
-  refine isClosed_biInter (λ z hz => isClosed_ball.preimage ?_)
+  refine isClosed_biInter (λ z hz => isClosed_closedBall.preimage ?_)
   exact ((UniformOnFun.uniformContinuous_eval_of_mem ℂ (compacts U)
     (mem_singleton z) ⟨singleton_subset_iff.2 hz, isCompact_singleton⟩).continuous)
 

@@ -5,7 +5,7 @@ open intervalIntegral Real MeasureTheory Filter Topology Set Metric
 
 variable {𝕜 E V : Type*} {r : ℝ} {z : ℂ} {a b t : ℝ} {n : ℕ}
 
-lemma isCompact_segment [OrderedRing 𝕜] [TopologicalSpace 𝕜] [TopologicalAddGroup 𝕜]
+lemma isCompact_segment [OrderedRing 𝕜] [TopologicalSpace 𝕜] [IsTopologicalAddGroup 𝕜]
     [CompactIccSpace 𝕜] [TopologicalSpace E] [AddCommGroup E] [ContinuousAdd E] [Module 𝕜 E]
     [ContinuousSMul 𝕜 E] {x y : E} :
     IsCompact (segment 𝕜 x y) := by

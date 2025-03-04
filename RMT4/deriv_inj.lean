@@ -104,8 +104,8 @@ lemma deriv_ne_zero_of_inj_aux {g : ℂ → ℂ} (hU : IsOpen U) (hg : Different
       cindex z₀ r g = p.order ∧
       (∀ z ∈ closedBall z₀ r, z ≠ z₀ → deriv g z ≠ 0) ∧
       (∀ z ∈ closedBall z₀ r, z ≠ z₀ → g z ≠ 0) ∧
-      closedBall z₀ r ⊆ U
-  · obtain ⟨q, hq⟩ : AnalyticAt ℂ (deriv g) z₀ := (hg.deriv hU).analyticAt (hU.mem_nhds hz₀)
+      closedBall z₀ r ⊆ U := by
+    obtain ⟨q, hq⟩ : AnalyticAt ℂ (deriv g) z₀ := (hg.deriv hU).analyticAt (hU.mem_nhds hz₀)
     have h26 : q ≠ 0 := by
       rintro rfl
       simpa [hgz₀] using (((bla ⟨p, hp⟩ hq).filter_mono nhdsWithin_le_nhds).and h25).exists

@@ -82,4 +82,3 @@ lemma has_primitives.has_logs (hp : has_primitives U) (hU : IsOpen U) (hU' : IsP
     rw [deriv.scomp z differentiableAt_exp (h3.differentiableAt f0)]
     have e5 : deriv g z = deriv lf z := by unfold_let ; simp
     field_simp [exp_ne_zero, hlf2 hz, hfz z hz, e5]
-    ring

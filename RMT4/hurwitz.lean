@@ -55,7 +55,7 @@ lemma titi {p q : Filter 𝕜} (hp : p ⊓ 𝓝 0 = ⊥) (hq : q ⊓ 𝓝 0 = �
   have hx'2 : x.2 ∉ ball (0 : 𝕜) η' :=
     λ h => (Set.nonempty_of_mem (mem_inter hx2.2 (hV' h))).ne_empty hUV'
   refine hu ((dist_inv_le_dist_div hη hη' hx'1 hx'2).trans_lt ?_)
-  convert (div_lt_div_right hηη').mpr hx1
+  convert (div_lt_div_iff_of_pos_right hηη').mpr hx1
   field_simp [hη.lt.ne.symm, hη'.lt.ne.symm]
 
 lemma uniform_ContinuousOn_inv {s : Set 𝕜} (hs : 𝓟 s ⊓ 𝓝 0 = ⊥) :

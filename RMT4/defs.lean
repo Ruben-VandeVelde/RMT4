@@ -22,7 +22,7 @@ lemma neg_in_𝔻 : u ∈ 𝔻 → -u ∈ 𝔻 := by
 lemma sqrt_𝔻_eq_𝔻 : {z : ℂ | z ^ 2 ∈ 𝔻} = 𝔻 := by
   simp [𝔻, ball]
 
-class good_domain (U : Set ℂ) : Prop :=
+class good_domain (U : Set ℂ) : Prop where
   (is_open : IsOpen U)
   (is_nonempty : U.Nonempty)
   (is_preconnected : IsPreconnected U)
@@ -30,7 +30,7 @@ class good_domain (U : Set ℂ) : Prop :=
   (has_sqrt : ∀ f : ℂ → ℂ, (∀ z ∈ U, f z ≠ 0) → (DifferentiableOn ℂ f U) →
     ∃ (g : ℂ → ℂ), (DifferentiableOn ℂ g U) ∧ (U.EqOn f (g ^ 2)))
 
-structure embedding (U V : Set ℂ) :=
+structure embedding (U V : Set ℂ) where
   (to_fun : ℂ → ℂ)
   (is_diff : DifferentiableOn ℂ to_fun U)
   (is_inj : InjOn to_fun U) -- TODO: rename to `inj_on`

@@ -72,13 +72,13 @@ lemma has_primitives.has_logs (hp : has_primitives U) (hU : IsOpen U) (hU' : IsP
     refine ⟨g, h3, ?_⟩
     suffices h : EqOn h (λ _ => 1) U
       by exact λ z hz => eq_of_div_eq_one (h hz)
-    have : 1 = h z₀ := by unfold_let ; simp [exp_log, hfz z₀ hz₀]
+    have : 1 = h z₀ := by simp [h, g, exp_log, hfz z₀ hz₀]
     rw [this]
     refine EqOn_of_deriv_eq_zero hU hU' e1 (λ z hz => ?_) hz₀
     have f0 : U ∈ 𝓝 z := hU.mem_nhds hz
     dsimp
-    unfold_let
+    unfold h g
     rw [Pi.div_def, deriv_div (hf.differentiableAt f0) (e4.differentiableAt f0) (exp_ne_zero _)]
     rw [deriv.scomp z differentiableAt_exp (h3.differentiableAt f0)]
-    have e5 : deriv g z = deriv lf z := by unfold_let ; simp
+    have e5 : deriv g z = deriv lf z := by simp [g]
     field_simp [exp_ne_zero, hlf2 hz, hfz z hz, e5]

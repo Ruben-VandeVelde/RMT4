@@ -1,3 +1,4 @@
+import Mathlib.Topology.UniformSpace.Compact
 import Mathlib.Topology.UniformSpace.UniformConvergence
 
 open Set Filter UniformSpace Function Uniformity Topology

@@ -43,10 +43,10 @@ lemma has_deriv_at_integral_of_continuous_of_lip
     φ_cts.self_of_nhds.integrableOn_Icc.mono_set Ioc_subset_Icc_self
   have h3 : AEStronglyMeasurable ψ μ := ψ_cts.aestronglyMeasurable measurableSet_Ioc
   have h4 : ∀ᵐ t ∂μ, LipschitzOnWith (Real.nnabs C) (λ z => φ z t) (ball z₀ δ) :=
-    (ae_restrict_iff' measurableSet_Ioc).mpr (eventually_of_forall φ_lip)
+    (ae_restrict_iff' measurableSet_Ioc).mpr (Eventually.of_forall φ_lip)
   have h5 : Integrable (λ _ => C) μ := integrable_const _
   have h6 : ∀ᵐ t ∂μ, HasDerivAt (λ z => φ z t) (ψ t) z₀ :=
-    (ae_restrict_iff' measurableSet_Ioc).mpr (eventually_of_forall φ_der)
+    (ae_restrict_iff' measurableSet_Ioc).mpr (Eventually.of_forall φ_der)
   exact (hasDerivAt_integral_of_dominated_loc_of_lip δ_pos h1 h2 h3 h4 h5 h6).2
 
 section uIoo
@@ -108,6 +108,7 @@ namespace ContDiffOn
 
 variable [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpace E] {f : ℝ → E} {g : ℝ → ℝ}
 
+omit [CompleteSpace E] in
 theorem continuousOn_derivWithin'' {n : ℕ∞} (h : ContDiffOn ℝ n f (uIcc a b)) (hn : 1 ≤ n) :
     ContinuousOn (derivWithin f (uIcc a b)) (uIcc a b) := by
   by_cases hab : a = b
@@ -129,6 +130,7 @@ theorem integral_eq_sub (h : ContDiffOn ℝ 1 f (Icc a b)) (hab : a ≤ b) :
   · case inl hab => exact h.integral_eq_sub' hab
   · case inr hab => simp [hab]
 
+omit [CompleteSpace E] in
 theorem integral_derivWithin_smul_comp
     (hg : ContDiffOn ℝ 1 g (uIcc a b)) (hf : ContinuousOn f (g '' uIcc a b)) :
     (∫ x in a..b, derivWithin g (uIcc a b) x • (f ∘ g) x) = (∫ x in g a..g b, f x) := by

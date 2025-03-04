@@ -18,7 +18,7 @@ def has_logs (U : Set ℂ) : Prop :=
 lemma EqOn_zero_of_deriv_eq_zero (hU : IsOpen U) (hU' : IsPreconnected U) {f : ℂ → ℂ}
     (hf : DifferentiableOn ℂ f U) (hf' : EqOn (deriv f) 0 U) (hz₀ : z₀ ∈ U) (hfz₀ : f z₀ = 0) :
     EqOn f 0 U := by
-  apply (hf.analyticOn hU).eqOn_zero_of_preconnected_of_eventuallyEq_zero hU' hz₀
+  apply (hf.analyticOnNhd hU).eqOn_zero_of_preconnected_of_eventuallyEq_zero hU' hz₀
   obtain ⟨r, hr, hrU⟩ := nhds_basis_ball.mem_iff.1 (hU.mem_nhds hz₀)
   refine eventually_nhds_iff.2 ⟨r, hr, λ z hz => ?_⟩
   rw [Pi.zero_apply, ← hfz₀]

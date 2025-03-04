@@ -58,7 +58,7 @@ theorem main [good_domain U] : ∃ f ∈ 𝓘 U, f '' U = ball (0 : ℂ) 1 := by
   have h5 : f ∈ 𝓘 U := ⟨hf.1, hf.2.resolve_right h7⟩
   refine ⟨f, h5, ?_⟩
   have h10 : f '' U ⊆ ball 0 1 := by
-    have := ((hf.1.1.analyticOn hU).is_constant_or_isOpen hU').resolve_left h7 U subset_rfl hU
+    have := ((hf.1.1.analyticOnNhd hU).is_constant_or_isOpen hU').resolve_left h7 U subset_rfl hU
     simpa [interior_closedBall] using this.subset_interior_iff.2 (mapsTo'.1 hf.1.2)
   refine (subset_iff_ssubset_or_eq.1 h10).resolve_left ?_
   rw [isMaxOn_iff] at hfg

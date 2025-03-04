@@ -354,7 +354,7 @@ theorem hurwitz [NeBot p]
     ∀ z ∈ U, f z = 0 := by
   have := local_hurwitz hU F_holo F_noz F_conv hz₀ hfz₀
   have h1 : DifferentiableOn ℂ f U := F_conv.differentiableOn F_holo hU
-  have h2 := h1.analyticOn hU
+  have h2 := h1.analyticOnNhd hU
   exact h2.eqOn_zero_of_preconnected_of_eventuallyEq_zero hU' hz₀ this
 
 theorem hurwitz' [NeBot p]
@@ -374,7 +374,7 @@ lemma hurwitz_1 (hU : IsOpen U) (hU' : IsPreconnected U) (hf : DifferentiableOn 
     (EqOn f 0 U) ∨ (∀ z₀ ∈ U, ∀ᶠ z in 𝓝[≠] z₀, f z ≠ 0) := by
   refine or_iff_not_imp_right.2 (λ h => ?_)
   obtain ⟨z₀, h1, h2⟩ : ∃ z₀ ∈ U, ∃ᶠ z in 𝓝[≠] z₀, f z = 0 := by simpa [not_forall] using h
-  exact (hf.analyticOn hU).eqOn_zero_of_preconnected_of_frequently_eq_zero hU' h1 h2
+  exact (hf.analyticOnNhd hU).eqOn_zero_of_preconnected_of_frequently_eq_zero hU' h1 h2
 
 lemma hurwitz4 {α β γ : Type*} {U : Set α} [TopologicalSpace α] [UniformSpace β] [UniformSpace γ]
     {F : ι → α → β} {f : α → β} {φ : β → γ}

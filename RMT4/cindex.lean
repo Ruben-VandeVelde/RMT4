@@ -14,7 +14,7 @@ variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E
 
 lemma DifferentiableOn.deriv {f : ℂ → E} (hf : DifferentiableOn ℂ f U) (hU : IsOpen U) :
     DifferentiableOn ℂ (deriv f) U :=
-  (hf.analyticOn hU).deriv.differentiableOn
+  (hf.analyticOnNhd hU).deriv.differentiableOn
 
 lemma HasFPowerSeriesAt.eventually_differentiable_at (hp : HasFPowerSeriesAt f p z₀) :
     ∀ᶠ z in 𝓝 z₀, DifferentiableAt ℂ f z := by

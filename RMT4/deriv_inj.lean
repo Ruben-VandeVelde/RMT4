@@ -123,7 +123,7 @@ lemma deriv_ne_zero_of_inj_aux {g : ℂ → ℂ} (hU : IsOpen U) (hg : Different
     tendsto_uniformly_on_add_const.tendstoLocallyUniformlyOn
   have h9 : ∀ᶠ ε in 𝓝[≠] 0, cindex z₀ r (λ z => g z + ε) = 1 := by
     have h24 : p.order ≠ 0 := by linarith
-    have := hurwitz2 hU (eventually_of_forall h18) h19 h7 h20 h22 (by simp [h8, h24])
+    have := hurwitz2 hU (Eventually.of_forall h18) h19 h7 h20 h22 (by simp [h8, h24])
     simp only [eventually_nhdsWithin_iff] at this ⊢
     filter_upwards [this] with ε h hε
     obtain ⟨z, hz, hgz⟩ := h hε
@@ -133,7 +133,7 @@ lemma deriv_ne_zero_of_inj_aux {g : ℂ → ℂ} (hU : IsOpen U) (hg : Different
     contrapose! hwz
     exact hi (h20 hw) ((ball_subset_closedBall.trans h20) hz) (add_right_cancel (hwz.trans hgz.symm))
   have h10 : Tendsto (λ ε => cindex z₀ r (λ z => g z + ε)) (𝓝[≠] 0) (𝓝 (cindex z₀ r g)) :=
-    hurwitz2_2 hU (eventually_of_forall h18) h19 h7 (sphere_subset_closedBall.trans h20) h22
+    hurwitz2_2 hU (Eventually.of_forall h18) h19 h7 (sphere_subset_closedBall.trans h20) h22
   rw [tendsto_nhds_unique (Tendsto.congr' h9 h10) tendsto_const_nhds] at h8
   norm_cast at h8; linarith
 

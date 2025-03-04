@@ -23,9 +23,9 @@ def 𝓗 (U : Set ℂ) := {f : 𝓒 U | DifferentiableOn ℂ f U}
 
 lemma isClosed_𝓗 (hU : IsOpen U) : IsClosed (𝓗 U) := by
   refine isClosed_iff_clusterPt.2 (λ f hf => ?_)
-  refine @TendstoLocallyUniformlyOn.differentiableOn _ _ _ _ _ _ _ id f hf ?_ ?_ hU
+  refine @TendstoLocallyUniformlyOn.differentiableOn _ _ _ _ _ _ id f _ hf  ?_ ?_ hU
   · simp [← tendsto_𝓒_iff hU, Tendsto]
-  · simp [eventually_inf_principal, 𝓗]; exact eventually_of_forall (λ g => id)
+  · simp [eventually_inf_principal, 𝓗]; exact Eventually.of_forall (λ g => id)
 
 lemma ContinuousOn_uderiv (hU : IsOpen U) : ContinuousOn uderiv (𝓗 U) := by
   rintro f -
@@ -104,7 +104,7 @@ lemma 𝓘_nonempty [good_domain U] : (𝓘 U).Nonempty := by
       rw [mem_closed_ball_neg_iff_mem_neg_closed_ball] at hgz
       obtain ⟨z', hz', hgz'⟩ := (closedBall_subset_ball (by linarith)).trans hr hgz
       have hzz' : z = z' := f_inj (by simp [g_sqf hz, g_sqf hz', hgz'])
-      simpa [hzz', neg_eq_self_iff, g_sqf hz'] using hgz'.symm } }
+      simpa [hzz', CharZero.neg_eq_self_iff, g_sqf hz'] using hgz'.symm } }
 
   let ggg := (embedding.inv _ (by linarith)).comp gg
   refine ⟨ggg.to_fun, ⟨ggg.is_diff, ?_⟩, ggg.is_inj⟩

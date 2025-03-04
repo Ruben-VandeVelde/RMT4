@@ -66,7 +66,7 @@ lemma non_injective_schwarz {f : ℂ → ℂ} (f_diff : DifferentiableOn ℂ f �
   let g := φ u_in_𝔻 ∘ f
   have g_diff : DifferentiableOn ℂ g 𝔻 := (φ u_in_𝔻).is_diff.comp f_diff f_img
   have g_maps : MapsTo g 𝔻 𝔻 := (φ u_in_𝔻).maps_to.comp f_img
-  have g_0_eq_0 : g 0 = 0 := by simp [g, φ]
+  have g_0_eq_0 : g 0 = 0 := by simp [g, φ, u]
   by_cases h : ‖deriv g 0‖ = 1
   case pos =>
     have g_lin : EqOn g (λ (z : ℂ) => z • deriv g 0) (ball 0 1) := by
@@ -126,7 +126,7 @@ lemma step_2 (hz₀ : z₀ ∈ U) (f : embedding U 𝔻) (hf : f '' U ⊂ 𝔻) 
   let v : ℂ := g z₀
   have v_in_𝔻 : v ∈ 𝔻 := g.maps_to hz₀
   let h : embedding U 𝔻 := (φ v_in_𝔻).comp g
-  have h_z₀_eq_0 : h z₀ = 0 := by simp [h, φ]
+  have h_z₀_eq_0 : h z₀ = 0 := by simp [h, φ, v]
   let σ : ℂ → ℂ := λ z => z ^ 2
   let ψ : ℂ → ℂ := φ (neg_in_𝔻 u_in_𝔻) ∘ σ ∘ φ (neg_in_𝔻 v_in_𝔻)
   have f_eq_ψ_h : EqOn f (ψ ∘ h) U := λ z hz => by
@@ -134,7 +134,7 @@ lemma step_2 (hz₀ : z₀ ∈ U) (f : embedding U 𝔻) (hf : f '' U ⊂ 𝔻) 
     have e2 := hg hz
     have e3 := φ_inv u_in_𝔻 (f.maps_to hz)
     dsimp [φᵤf] at e2
-    simp [ψ, σ, h, e1, ← e2, e3]
+    simp [ψ, σ, h, e1, ← e2, e3, φᵤ]
   have ψ_is_diff : DifferentiableOn ℂ ψ 𝔻 := by
     refine (φ (neg_in_𝔻 u_in_𝔻)).is_diff.comp ?_ ?_
     · apply DifferentiableOn.comp

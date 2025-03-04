@@ -76,7 +76,7 @@ theorem montel (hU : IsOpen U) (h1 : UniformlyBoundedOn F U) (h2 : ∀ i, Differ
     TotallyBounded (range F) := by
   choose! Q hQ1 hQ2 using h1
   have l1 : range F ⊆ 𝓑 U Q := by rintro f ⟨i, rfl⟩ ; exact ⟨h2 i, fun K hK => hQ2 K hK i⟩
-  exact totallyBounded_subset l1 <| (isCompact_𝓑 hU hQ1).totallyBounded
+  exact TotallyBounded.subset l1 <| (isCompact_𝓑 hU hQ1).totallyBounded
 
 #print axioms montel
 

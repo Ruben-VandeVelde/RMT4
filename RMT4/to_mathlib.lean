@@ -141,7 +141,7 @@ theorem integral_eq_sub''' (h : ContDiffOn ℝ 1 f (Icc a b)) (hab : a ≤ b) :
   convert h.integral_eq_sub hab using 1
   apply integral_congr_uIoo
   intro t ht
-  convert (derivWithin_of_mem_uIoo ht).symm using 3
+  convert (derivWithin_of_mem_uIoo ht).symm using 2
   simp [uIcc, hab]
 
 theorem integral_eq_sub_u (h : ContDiffOn ℝ 1 f (uIcc a b)) :
@@ -157,7 +157,6 @@ theorem integral_eq_sub'' (h : ContDiffOn ℝ 1 f (Icc a b)) (hab : a ≤ b) (ht
   rw [← l2]
   apply integral_congr_uIoo
   intro u hu
-  simp
   have l3 : u ∈ uIoo a b := by
     rw [uIoo_eq_uIoc_sdiff_ends]
     simp [uIoo_eq_uIoc_sdiff_ends, mem_uIoc] at hu
@@ -183,11 +182,11 @@ section sort_finset
 
 variable {α : Type*} [LinearOrder α] {l l1 l2 : List α} {s : Finset α}
 
-lemma List.Sorted.ext (h1 : l1.Sorted (. ≤ .)) (h2 : l2.Sorted (. ≤ .))
+lemma List.Sorted.ext (h1 : l1.Sorted (· ≤ ·)) (h2 : l2.Sorted (· ≤ ·))
     (h'1 : l1.Nodup) (h'2 : l2.Nodup) (h : ∀ x, x ∈ l1 ↔ x ∈ l2) : l1 = l2 :=
   List.eq_of_perm_of_sorted ((List.perm_ext_iff_of_nodup h'1 h'2).2 h) h1 h2
 
-lemma List.Sorted.ext' (h1 : l1.Sorted (. < .)) (h2 : l2.Sorted (. < .))
+lemma List.Sorted.ext' (h1 : l1.Sorted (· < ·)) (h2 : l2.Sorted (· < ·))
     (h4 : ∀ x, x ∈ l1 ↔ x ∈ l2) : l1 = l2 :=
   List.Sorted.ext h1.le_of_lt h2.le_of_lt h1.nodup h2.nodup h4
 

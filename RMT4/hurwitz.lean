@@ -111,7 +111,7 @@ lemma TendstoUniformlyOn.mul_of_le
         convert mul_lt_mul' (hf x hx) (hG x hx) (norm_nonneg _) hMf using 1
         field_simp [hMf.ne.symm]; ring
     simp_rw [Pi.mul_apply, lxyab]
-    exact (norm_add_le _ _).trans_lt (add_halves' ε ▸ add_lt_add h2 h3)
+    exact (norm_add_le _ _).trans_lt (add_halves ε ▸ add_lt_add h2 h3)
 
 lemma TendstoUniformlyOn.mul_of_bound
     (hF : TendstoUniformlyOn F f p s) (hG : TendstoUniformlyOn G g p s)

@@ -5,7 +5,7 @@ open Set Filter UniformSpace Function Uniformity Topology
 
 variable {ι α β : Type*} {a : α} {s t : Set α} {x u v : Set (α × α)}
 
-lemma symmetricRel_of (h : ∀ {a b : α}, (a, b) ∈ x → (b, a) ∈ x) : SymmetricRel x :=
+lemma symmetricRel_of (h : ∀ {a b : α}, (a, b) ∈ x → (b, a) ∈ x) : IsSymmetricRel x :=
   ext (λ _ => ⟨h, h⟩)
 
 namespace UniformSpace -- uniform thickening
@@ -37,12 +37,12 @@ lemma disjoint_ball_iff : Disjoint (ball a u) t ↔ ∀ b ∈ t, (a, b) ∉ u :=
 lemma thickening_inter_eq_empty : thickening u s ∩ t = ∅ ↔ ∀ a ∈ s, ∀ b ∈ t, (a, b) ∉ u := by
   simp [thickening, ← disjoint_iff_inter_eq_empty, disjoint_ball_iff]
 
-lemma thickening_inter_eq_empty_comm (hu : SymmetricRel u) :
+lemma thickening_inter_eq_empty_comm (hu : IsSymmetricRel u) :
     thickening u s ∩ t = ∅ ↔ s ∩ thickening u t = ∅ := by
   simp [thickening_inter_eq_empty, inter_comm s]
   apply Iff.intro; repeat exact λ h a ha b hb hab => h b hb a ha (hu.mk_mem_comm.mp hab)
 
-lemma thickening_inter_thickening_eq_empty_of_comp (hv : SymmetricRel v) (hvu : v ○ v ⊆ u)
+lemma thickening_inter_thickening_eq_empty_of_comp (hv : IsSymmetricRel v) (hvu : v ○ v ⊆ u)
     (hST : thickening u s ∩ t = ∅) :
     thickening v s ∩ thickening v t = ∅ := by
   simp only [←thickening_inter_eq_empty_comm hv, thickening_comp]

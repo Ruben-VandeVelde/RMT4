@@ -8,7 +8,7 @@ package «rMT4» where
     ⟨`relaxedAutoImplicit, false⟩
   ]
 
-require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "v4.17.0"
+require mathlib from git "https://github.com/leanprover-community/mathlib4.git" @ "v4.18.0"
 
 -- require LeanCopilot from git "https://github.com/lean-dojo/LeanCopilot.git" @ "v1.0.2"
 
@@ -19,4 +19,4 @@ require mathlib from git "https://github.com/leanprover-community/mathlib4.git" 
 
 require checkdecls from git "https://github.com/PatrickMassot/checkdecls.git"
 
-require «doc-gen4» from git "https://github.com/leanprover/doc-gen4" @ "v4.17.0"
+require «doc-gen4» from git "https://github.com/leanprover/doc-gen4" @ "v4.18.0"

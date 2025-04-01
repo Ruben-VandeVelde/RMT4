@@ -12,27 +12,12 @@ section basic
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
   {p : FormalMultilinearSeries ℂ ℂ E} {U : Set ℂ} {f : ℂ → E} {z₀ : ℂ}
 
-lemma DifferentiableOn.deriv {f : ℂ → E} (hf : DifferentiableOn ℂ f U) (hU : IsOpen U) :
-    DifferentiableOn ℂ (deriv f) U :=
-  (hf.analyticOnNhd hU).deriv.differentiableOn
-
 lemma HasFPowerSeriesAt.eventually_differentiable_at (hp : HasFPowerSeriesAt f p z₀) :
     ∀ᶠ z in 𝓝 z₀, DifferentiableAt ℂ f z := by
   obtain ⟨r, hp⟩ := hp
   exact hp.differentiableOn.eventually_differentiableAt (EMetric.ball_mem_nhds _ hp.r_pos)
 
 end basic
-
-namespace circleIntegral
-
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {f g : ℂ → E} {c : ℂ} {R : ℝ}
-
--- `circleIntegral.integral_sub` already exists in mathlib
-theorem integral_add (hf : CircleIntegrable f c R) (hg : CircleIntegrable g c R) :
-    (∮ z in C(c, R), f z + g z) = (∮ z in C(c, R), f z) + (∮ z in C(c, R), g z) := by
-  simp only [circleIntegral, smul_add, intervalIntegral.integral_add hf.out hg.out]
-
-end circleIntegral
 
 section circle_integral
 

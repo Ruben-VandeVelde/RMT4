@@ -85,7 +85,7 @@ lemma 𝓘_nonempty [good_domain U] : (𝓘 U).Nonempty := by
     have e2 := g_hol.analyticAt e1
     have f_eq_comp := (good_domain.is_open.eventually_mem hz₀).mono g_sqf
     have dg_nonzero : deriv g z₀ ≠ 0 := by
-      have e3 := e2.differentiableAt.deriv_eq_deriv_pow_div_pow zero_lt_two f_eq_comp (f_noz hz₀)
+      have e3 := e2.differentiableAt.deriv_eq_deriv_pow_div_pow two_ne_zero f_eq_comp (f_noz hz₀)
       simp [e3, f]
       intro h
       have := g_sqf hz₀

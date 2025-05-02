@@ -83,10 +83,8 @@ noncomputable def embedding.inv (w : ℂ) {r : ℝ} (hr : 0 < r) : embedding ((c
     · simpa only [sub_ne_zero] using ne_center_of_not_mem_closed_ball hr.le hy
   maps_to := λ x hx => by
     replace hx : r < ‖x - w‖ := by simpa [𝔻] using hx
-    simp only [𝔻, mem_ball_zero_iff, norm_div]
-    refine (@div_lt_one _ _ _ _ (hr.trans hx)).mpr ?_
-    convert hx
-    simp [hr.le]
+    simpa only [𝔻, mem_ball_zero_iff, norm_div, div_lt_one (hr.trans hx), norm_real,
+      Real.norm_eq_abs, abs_of_nonneg hr.le]
 
 lemma embedding.deriv_ne_zero {f : embedding U V} {z : ℂ} (hU : IsOpen U) (hz : z ∈ U) :
   deriv f z ≠ 0 :=

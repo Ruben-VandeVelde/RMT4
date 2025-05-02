@@ -21,7 +21,7 @@ end basic
 
 section circle_integral
 
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E] {f g : ℂ → E}
+variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {f g : ℂ → E}
   {r : ℝ} {U : Set ℂ} {c : ℂ}
 
 lemma circle_integral_eq_zero (hU : IsOpen U) (hr : 0 < r) (hcr : closedBall c r ⊆ U)
@@ -31,7 +31,7 @@ lemma circle_integral_eq_zero (hU : IsOpen U) (hr : 0 < r) (hcr : closedBall c r
     (f_hol.continuousOn.mono hcr)
     (λ _ hz => f_hol.differentiableAt (hU.mem_nhds (hcr (ball_subset_closedBall (Set.diff_subset hz)))))
 
-lemma circle_integral_sub_center_inv_smul {v : E} (hr : 0 < r) :
+lemma circle_integral_sub_center_inv_smul [CompleteSpace E] {v : E} (hr : 0 < r) :
     (∮ z in C(c, r), (z - c)⁻¹ • v) = (2 * π * I : ℂ) • v := by
   simp [circleIntegral.integral_sub_inv_of_mem_ball (mem_ball_self hr)]
 

@@ -1,14 +1,14 @@
 import Mathlib.Analysis.Calculus.ParametricIntegral
-import Mathlib.MeasureTheory.Integral.IntegrationByParts
+import Mathlib.MeasureTheory.Integral.IntervalIntegral.IntegrationByParts
 import RMT4.cindex
 
-open intervalIntegral Real MeasureTheory Filter Topology Set Metric
+open intervalIntegral Real MeasureTheory Filter Topology Set Metric Interval
 
 variable {𝕜 E V : Type*} {r : ℝ} {z : ℂ} {a b t : ℝ} {n : ℕ}
 
-lemma isCompact_segment [OrderedRing 𝕜] [TopologicalSpace 𝕜] [IsTopologicalAddGroup 𝕜]
-    [CompactIccSpace 𝕜] [TopologicalSpace E] [AddCommGroup E] [ContinuousAdd E] [Module 𝕜 E]
-    [ContinuousSMul 𝕜 E] {x y : E} :
+lemma isCompact_segment [Ring 𝕜] [PartialOrder 𝕜] [IsOrderedRing 𝕜] [TopologicalSpace 𝕜]
+    [IsTopologicalAddGroup 𝕜] [CompactIccSpace 𝕜] [TopologicalSpace E] [AddCommGroup E]
+    [ContinuousAdd E] [Module 𝕜 E] [ContinuousSMul 𝕜 E] {x y : E} :
     IsCompact (segment 𝕜 x y) := by
   simpa only [segment_eq_image] using isCompact_Icc.image (by continuity)
 

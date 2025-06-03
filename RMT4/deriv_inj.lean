@@ -71,7 +71,7 @@ lemma two_le_order_of_deriv_eq_zero {g : ℂ →ℂ} {p : FormalMultilinearSerie
     2 ≤ p.order := by
   classical
   have h1 : p.coeff 1 = 0 := by simpa only [hg'] using hgp.deriv.symm
-  have h2 : p 0 = 0 := by ext1 x; simpa only [hg] using hgp.coeff_zero x
+  have h2 : p 0 = 0 := by ext1; simpa only [hg] using hgp.coeff_zero _
   have h3 : p 1 = 0 := by ext1; simp [h1]
   rw [FormalMultilinearSeries.order_eq_find' hp, Nat.le_find_iff]
   intro n hn

@@ -36,6 +36,8 @@ lemma crucial (hU : IsOpen U) (hcr : closedBall c r ⊆ U) (hz₀ : z₀ ∈ bal
         change deriv (fun y => id y - z₀) z = 1
         simp [deriv_sub_const]
       simp [h4, deriv_mul e1 e2, this]
+      rw [deriv_fun_mul e1 e2]
+      simp
     have e3 : g z ≠ 0 := h2 z (sphere_subset_closedBall hz)
     field_simp [h3 z hz', h5, mul_comm, h10 z hz]
   simp only [cindex, integral_congr hr.le h6, ← mul_add]

@@ -7,18 +7,6 @@ open Real Complex Function TopologicalSpace Filter Topology Metric MeasureTheory
 noncomputable def cindex (z₀ : ℂ) (r : ℝ) (f : ℂ → ℂ) : ℂ :=
   (2 * π * I)⁻¹ * ∮ z in C(z₀, r), deriv f z / f z
 
-section basic
-
-variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [CompleteSpace E]
-  {p : FormalMultilinearSeries ℂ ℂ E} {U : Set ℂ} {f : ℂ → E} {z₀ : ℂ}
-
-lemma HasFPowerSeriesAt.eventually_differentiable_at (hp : HasFPowerSeriesAt f p z₀) :
-    ∀ᶠ z in 𝓝 z₀, DifferentiableAt ℂ f z := by
-  obtain ⟨r, hp⟩ := hp
-  exact hp.differentiableOn.eventually_differentiableAt (EMetric.ball_mem_nhds _ hp.r_pos)
-
-end basic
-
 section circle_integral
 
 variable {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] {f g : ℂ → E}
@@ -66,13 +54,16 @@ lemma deriv_div_self_eq_div_add_deriv_div_self (hg : DifferentiableAt ℂ g z) (
     (hfg : f =ᶠ[𝓝 z] λ w => (w - z₀) ^ n * g w) (hz : z ≠ z₀) :
     deriv f z / f z = n / (z - z₀) + deriv g z / g z := by
   have h1 : DifferentiableAt ℂ (λ y => (y - z₀) ^ n) z :=
-    ((differentiable_id'.sub_const z₀).pow n).differentiableAt
-  have h4 : DifferentiableAt ℂ (λ y => y - z₀) z := (differentiable_id'.sub_const z₀).differentiableAt
+    ((differentiable_fun_id.sub_const z₀).pow n).differentiableAt
+  have h4 : DifferentiableAt ℂ (λ y => y - z₀) z := (differentiable_fun_id.sub_const z₀).differentiableAt
   have h5 : deriv (fun y => y - z₀) z = 1 := by simp only [deriv_sub_const, deriv_id'']
   simp [hfg.deriv_eq, hfg.self_of_nhds, deriv_mul h1 hg, _root_.add_div, deriv_pow'' n h4, deriv_sub_const, h5]
   cases n
   case zero => simp
   case succ n =>
+    simp
+    rw [deriv_fun_mul h1 hg]
+    simp
     field_simp [_root_.pow_succ, sub_ne_zero.mpr hz]
     ring
 
@@ -98,7 +89,8 @@ lemma cindex_eq_zero (hU : IsOpen U) (hr : 0 < r) (hcr : closedBall c r ⊆ U)
     refine ⟨thickening δ (closedBall c r), ?_, isOpen_thickening, self_subset_thickening e4 _, ?_⟩
     · exact (e5.trans $ Set.sep_subset _ _)
     · exact λ z hz => (e5 hz).2
-  simp [cindex, circle_integral_eq_zero h2 hr h3 (((f_hol.mono h1).deriv h2).div (f_hol.mono h1) h4)]
+  simpa [cindex, Real.pi_ne_zero] using
+    circle_integral_eq_zero h2 hr h3 (((f_hol.mono h1).deriv h2).div (f_hol.mono h1) h4)
 
 -- TODO: off-center using `integral_sub_inv_of_mem_ball`
 
@@ -134,7 +126,7 @@ lemma exists_cindex_eq_order' (hp : HasFPowerSeriesAt f p z₀) (h : p ≠ 0) :
   have lh2 : ∀ᶠ z in 𝓝 z₀, z ≠ z₀ → deriv f z / f z = p.order / (z - z₀) + deriv g z / g z :=
     eventually_deriv_div_self_eq hp h
   have lh3 : ∀ᶠ z in 𝓝 z₀, DifferentiableAt ℂ g z :=
-    (hp.has_fpower_series_iterate_dslope_fslope p.order).eventually_differentiable_at
+    (hp.has_fpower_series_iterate_dslope_fslope p.order).eventually_differentiableAt
   obtain ⟨R, hR₁, hh⟩ := Metric.mem_nhds_iff.mp (lh1.and (lh2.and lh3))
   refine ⟨R, hR₁, λ r hr => ?_⟩
   refine cindex_eq_order_aux isOpen_ball hr.1 (closedBall_subset_ball hr.2)

@@ -18,13 +18,16 @@ lemma one_sub_mul_conj_add_mul_conj_ne_zero (hu : u ∈ 𝔻) :
   simp [h1, mul_comm]
 
 lemma normSq_sub_normSq : normSq (z - u) - normSq (1 - z * conj u) = (normSq z - 1) * (1 - normSq u) := by
-  field_simp [← ofReal_inj, normSq_eq_conj_mul_self]; ring
+  simp [← ofReal_inj, normSq_eq_conj_mul_self]
+  ring
 
 noncomputable def pre_φ (u z : ℂ) : ℂ := (z - u) / (1 - z * conj u)
 
 lemma pre_φ_inv (hu : u ∈ 𝔻) : LeftInvOn (pre_φ (-u)) (pre_φ u) 𝔻 := by
   rintro z hz
-  field_simp [pre_φ, one_sub_mul_conj_ne_zero hu hz, one_sub_mul_conj_add_mul_conj_ne_zero hu]
+  have := one_sub_mul_conj_ne_zero hu hz
+  have := one_sub_mul_conj_add_mul_conj_ne_zero (z := z) hu
+  simp [field, pre_φ]
   ring
 
 noncomputable def φ (hu : u ∈ 𝔻) : embedding 𝔻 𝔻 :=
@@ -48,8 +51,9 @@ noncomputable def φ (hu : u ∈ 𝔻) : embedding 𝔻 𝔻 :=
 
 lemma φ_deriv (hu : u ∈ 𝔻) (hz : z ∈ 𝔻) : deriv (φ hu) z = (1 - u * conj u) / ((1 - z * conj u) ^ 2) := by
   have h3 : 1 - z * conj u ≠ 0 := one_sub_mul_conj_ne_zero hu hz
-  simp [φ]
-  field_simp [h3]; ring
+  simp [φ, h3]
+  field_simp
+  ring
 
 lemma φ_inv (hu : u ∈ 𝔻) (hz : z ∈ 𝔻) : φ (neg_in_𝔻 hu) (φ hu z) = z :=
   pre_φ_inv hu hz
@@ -89,7 +93,7 @@ lemma non_injective_schwarz {f : ℂ → ℂ} (f_diff : DifferentiableOn ℂ f �
       set w := 1 - conj u * u with hw
       have : w ≠ 0 := by simpa [normSq_eq_conj_mul_self, mul_comm u] using e1
       rw [φ_deriv u_in_𝔻 u_in_𝔻, normSq_eq_conj_mul_self, mul_comm u, ← hw]
-      field_simp; ring
+      field_simp
     have e2 : 0 ≤ normSq u := normSq_nonneg _
     have e3 : normSq u < 1 := by
       rw [normSq_eq_norm_sq]

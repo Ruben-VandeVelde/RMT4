@@ -18,9 +18,10 @@ lemma crucial (hU : IsOpen U) (hcr : closedBall c r ⊆ U) (hz₀ : z₀ ∈ bal
     case neg => simp [g, dslope, h, slope, sub_ne_zero.2 h, hfz₀, hfz z hz h]
   have h10 : ∀ z ∈ sphere c r, z - z₀ ≠ 0 :=
     λ z hz => sub_ne_zero.2 (sphere_disjoint_ball.ne_of_mem hz hz₀)
-  suffices this : cindex c r f = ((2 * Real.pi * I)⁻¹ * ∮ z in C(c, r), (z - z₀)⁻¹) + cindex c r g
-    by rw [this, integral_sub_inv_of_mem_ball hz₀, cindex_eq_zero hU hr hcr h1 h2]
-       field_simp [two_ne_zero, Real.pi_ne_zero, I_ne_zero]
+  suffices this : cindex c r f = ((2 * Real.pi * I)⁻¹ * ∮ z in C(c, r), (z - z₀)⁻¹) + cindex c r g by
+    rw [this, integral_sub_inv_of_mem_ball hz₀, cindex_eq_zero hU hr hcr h1 h2]
+    field_simp
+    ring
   have h6 : ∀ z ∈ sphere c r, deriv f z / f z = (z - z₀)⁻¹ + deriv g z / g z := by
     rintro z hz
     have h3 : ∀ z ∈ U, f z = (z - z₀) * g z :=
@@ -36,7 +37,10 @@ lemma crucial (hU : IsOpen U) (hcr : closedBall c r ⊆ U) (hz₀ : z₀ ∈ bal
       rw [deriv_fun_mul e1 e2]
       simp
     have e3 : g z ≠ 0 := h2 z (sphere_subset_closedBall hz)
-    field_simp [h3 z hz', h5, mul_comm, h10 z hz]
+    have := h10 z hz
+    field_simp
+    simp [h3 z hz', h5, mul_comm]
+    field_simp
   simp only [cindex, integral_congr hr.le h6, ← mul_add]
   congr
   apply circleIntegral.integral_add

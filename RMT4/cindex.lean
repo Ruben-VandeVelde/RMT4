@@ -115,7 +115,7 @@ lemma cindex_eq_order_aux (hU : IsOpen U) (hr : 0 < r) (h0 : closedBall z₀ r �
     simpa [cindex, Real.pi_ne_zero, I_ne_zero] using this
   have e7 : (∮ z in C(z₀, r), c / (z - z₀)) = 2 * π * I * c := by
     simpa [div_eq_mul_inv, mul_comm _ _⁻¹] using circle_integral_sub_center_inv_smul hr
-  field_simp [cindex, e4, e5, e6, e7, Real.pi_ne_zero, I_ne_zero, two_ne_zero]
+  simp [field, cindex, e4, e5, e6, e7]
 
 lemma exists_cindex_eq_order' (hp : HasFPowerSeriesAt f p z₀) (h : p ≠ 0) :
     ∃ R > (0 : ℝ), ∀ r ∈ Set.Ioo 0 R, cindex z₀ r f = p.order := by

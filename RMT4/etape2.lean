@@ -36,7 +36,7 @@ noncomputable def φ (hu : u ∈ 𝔻) : embedding 𝔻 𝔻 :=
   is_inj := (pre_φ_inv hu).injOn,
   maps_to := by
     rintro z hz
-    simp only [mem_𝔻_iff, map_div₀, norm_div]
+    simp only [mem_𝔻_iff, norm_div]
     refine (div_lt_iff₀ (norm_pos_iff.mpr (one_sub_mul_conj_ne_zero hu hz))).mpr ?_
     rw [one_mul]
     apply lt_of_pow_lt_pow_left₀ 2 (norm_nonneg _)
@@ -47,12 +47,8 @@ noncomputable def φ (hu : u ∈ 𝔻) : embedding 𝔻 𝔻 :=
 }
 
 lemma φ_deriv (hu : u ∈ 𝔻) (hz : z ∈ 𝔻) : deriv (φ hu) z = (1 - u * conj u) / ((1 - z * conj u) ^ 2) := by
-  have h1 : DifferentiableAt ℂ (fun z => z - u) z := by simp
-  have h2 : DifferentiableAt ℂ (fun z => 1 - z * conj u) z := by simp [DifferentiableAt.mul_const]
   have h3 : 1 - z * conj u ≠ 0 := one_sub_mul_conj_ne_zero hu hz
-  have h4 : deriv (fun z => z - u) z = 1 := by simp [deriv_sub_const]
-  have h5 : deriv (fun z => 1 - z * conj u) z = - conj u := by simp [deriv_const_sub]
-  simp [φ, deriv_div h1 h2 h3, h4, h5]
+  simp [φ]
   field_simp [h3]; ring
 
 lemma φ_inv (hu : u ∈ 𝔻) (hz : z ∈ 𝔻) : φ (neg_in_𝔻 hu) (φ hu z) = z :=

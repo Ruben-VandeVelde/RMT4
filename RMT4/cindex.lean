@@ -55,9 +55,7 @@ lemma deriv_div_self_eq_div_add_deriv_div_self (hg : DifferentiableAt ℂ g z) (
     deriv f z / f z = n / (z - z₀) + deriv g z / g z := by
   have h1 : DifferentiableAt ℂ (λ y => (y - z₀) ^ n) z :=
     ((differentiable_fun_id.sub_const z₀).pow n).differentiableAt
-  have h4 : DifferentiableAt ℂ (λ y => y - z₀) z := (differentiable_fun_id.sub_const z₀).differentiableAt
-  have h5 : deriv (fun y => y - z₀) z = 1 := by simp only [deriv_sub_const, deriv_id'']
-  simp [hfg.deriv_eq, hfg.self_of_nhds, deriv_mul h1 hg, _root_.add_div, deriv_pow'' n h4, deriv_sub_const, h5]
+  simp [hfg.deriv_eq, hfg.self_of_nhds]
   cases n
   case zero => simp
   case succ n =>

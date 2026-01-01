@@ -14,8 +14,8 @@ lemma crucial (hU : IsOpen U) (hcr : closedBall c r ⊆ U) (hz₀ : z₀ ∈ bal
   have h2 : ∀ z ∈ closedBall c r, g z ≠ 0 := by
     rintro z hz
     by_cases h : z = z₀
-    case pos => simp [g, dslope, h, Function.update, hf'z₀]
-    case neg => simp [g, dslope, h, Function.update, slope, sub_ne_zero.2 h, hfz₀, hfz z hz h]
+    case pos => simp [g, dslope, h, hf'z₀]
+    case neg => simp [g, dslope, h, slope, sub_ne_zero.2 h, hfz₀, hfz z hz h]
   have h10 : ∀ z ∈ sphere c r, z - z₀ ≠ 0 :=
     λ z hz => sub_ne_zero.2 (sphere_disjoint_ball.ne_of_mem hz hz₀)
   suffices this : cindex c r f = ((2 * Real.pi * I)⁻¹ * ∮ z in C(c, r), (z - z₀)⁻¹) + cindex c r g
@@ -32,10 +32,7 @@ lemma crucial (hU : IsOpen U) (hcr : closedBall c r ⊆ U) (hz₀ : z₀ ∈ bal
     have e1 : DifferentiableAt ℂ (λ y => y - z₀) z := differentiableAt_id.sub_const z₀
     have e2 : DifferentiableAt ℂ g z := h1.differentiableAt e0
     have h5 : deriv f z = g z + (z - z₀) * deriv g z := by
-      have : deriv (fun y => y - z₀) z = 1 := by
-        change deriv (fun y => id y - z₀) z = 1
-        simp [deriv_sub_const]
-      simp [h4, deriv_mul e1 e2, this]
+      simp [h4]
       rw [deriv_fun_mul e1 e2]
       simp
     have e3 : g z ≠ 0 := h2 z (sphere_subset_closedBall hz)

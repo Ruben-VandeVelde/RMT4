@@ -67,7 +67,7 @@ lemma uIoo_eq_uIcc_sdiff_ends : uIoo a b = uIcc a b \ {a, b} := by
   · simp [uIoo, uIcc, *, pair_comm a b]
 
 lemma uIcc_mem_nhds (h : t ∈ uIoo a b) : uIcc a b ∈ 𝓝 t :=
-  mem_of_superset (isOpen_Ioo.mem_nhds h) (Set.uIoo_subset_uIcc _ _)
+  mem_of_superset (isOpen_Ioo.mem_nhds h) Set.uIoo_subset_uIcc_self
 
 lemma uIcc_mem_nhds_within (h : t ∈ uIoo a b) : uIcc a b ∈ 𝓝[Ioi t] t :=
   nhdsWithin_le_nhds (uIcc_mem_nhds h)
@@ -124,7 +124,7 @@ theorem integral_derivWithin_smul_comp
     (hg : ContDiffOn ℝ 1 g (uIcc a b)) (hf : ContinuousOn f (g '' uIcc a b)) :
     (∫ x in a..b, derivWithin g (uIcc a b) x • (f ∘ g) x) = (∫ x in g a..g b, f x) := by
   refine integral_comp_smul_deriv'' hg.continuousOn (λ t ht => ?_) (hg.continuousOn_derivWithin'' le_rfl) hf
-  apply (hg.differentiableOn le_rfl t (Set.uIoo_subset_uIcc _ _ ht)).hasDerivWithinAt.mono_of_mem_nhdsWithin
+  apply (hg.differentiableOn le_rfl t (Set.uIoo_subset_uIcc_self ht)).hasDerivWithinAt.mono_of_mem_nhdsWithin
   exact uIcc_mem_nhds_within ht
 
 theorem integral_eq_sub''' (h : ContDiffOn ℝ 1 f (Icc a b)) (hab : a ≤ b) :

@@ -173,15 +173,17 @@ section sort_finset
 
 variable {α : Type*} [LinearOrder α] {l l1 l2 : List α} {s : Finset α}
 
-lemma List.Sorted.ext (h1 : l1.Sorted (· ≤ ·)) (h2 : l2.Sorted (· ≤ ·))
+lemma List.Pairwise.ext (h1 : l1.Pairwise (· ≤ ·)) (h2 : l2.Pairwise (· ≤ ·))
     (h'1 : l1.Nodup) (h'2 : l2.Nodup) (h : ∀ x, x ∈ l1 ↔ x ∈ l2) : l1 = l2 :=
-  List.eq_of_perm_of_sorted ((List.perm_ext_iff_of_nodup h'1 h'2).2 h) h1 h2
+  List.Perm.eq_of_pairwise' h1 h2 ((List.perm_ext_iff_of_nodup h'1 h'2).2 h)
 
-lemma List.Sorted.ext' (h1 : l1.Sorted (· < ·)) (h2 : l2.Sorted (· < ·))
+lemma List.Pairwise.ext' (h1 : l1.Pairwise (· < ·)) (h2 : l2.Pairwise (· < ·))
     (h4 : ∀ x, x ∈ l1 ↔ x ∈ l2) : l1 = l2 :=
-  List.Sorted.ext h1.le_of_lt h2.le_of_lt h1.nodup h2.nodup h4
+  List.Pairwise.ext h1.sortedLT.sortedLE.pairwise h2.sortedLT.sortedLE.pairwise
+    h1.nodup h2.nodup h4
 
-@[simp] lemma List.Sorted.toFinset_sort (hl : l.Sorted (· < ·)) : (l.toFinset).sort (· ≤ ·) = l :=
-  List.Sorted.ext' (l.toFinset).sort_sorted_lt hl (by simp)
+@[simp] lemma List.Pairwise.toFinset_sort (hl : l.Pairwise (· < ·)) :
+    (l.toFinset).sort (· ≤ ·) = l :=
+  List.Pairwise.ext' (l.toFinset).sortedLT_sort.pairwise hl (by simp)
 
 end sort_finset

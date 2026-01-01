@@ -215,7 +215,7 @@ lemma TendstoUniformlyOn.tendsto_circle_integral (hr : 0 < r)
   by_cases h : NeBot p
   case neg => simp at h; simp [h]
   case pos =>
-    have f_cont : ContinuousOn f (sphere z₀ r) := F_conv.continuousOn F_cont
+    have f_cont : ContinuousOn f (sphere z₀ r) := F_conv.continuousOn F_cont.frequently
     rw [Metric.tendsto_nhds]
     intro ε hε
     have twopir_ne_zero : 2 * Real.pi * r ≠ 0 := by simp [Real.pi_ne_zero, hr.ne.symm]
